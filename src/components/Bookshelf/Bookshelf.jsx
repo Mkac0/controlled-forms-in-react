@@ -12,13 +12,14 @@ const Bookshelf = (props) => {
     });
 
     const handleChange = (event) => {
-        setNewBook(event.target.value);
+        const { name, value } = event.target;
+        setNewBook((prev) => ({ ...prev, [name]: value }));
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.addBook(newBook);
-        setNewBook('');
+        setBooks((prev) => [...prev, newBook]);
+        setNewBook({ title:'', author:'' });
     }
 
     return (
@@ -47,12 +48,15 @@ const Bookshelf = (props) => {
                 <button type="submit">Add Book </button>
             </form>
             <div className="bookCardsDiv">
-                {books.map((book, index) => {
-                    <div className="bookCard" key={`${book.title}-${book.author}-${index}`}>
+                {books.map((book, index) => (
+                    <div 
+                        className="bookCard" 
+                        key={`${book.title}-${book.author}-${index}`}
+                    >
                         <strong>{book.title}</strong>
                         <div>{book.author}</div>
                     </div>
-                })}
+                ))}
             </div>
         </div>
     );
